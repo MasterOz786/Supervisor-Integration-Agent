@@ -15,7 +15,7 @@ from .executor import execute_plan
 from .models import FrontendRequest, SupervisorResponse
 from .planner import plan_tools_with_llm
 from .registry import load_registry
-from .web import render_home
+from .web import render_home, render_agents_page, render_query_page
 
 
 def build_app() -> FastAPI:
@@ -26,10 +26,18 @@ def build_app() -> FastAPI:
         return render_home()
 
     @app.get("/agents")
+    async def view_agents():
+        return render_agents_page(load_registry())
+
+    @app.get("/query")
+    async def view_query():
+        return render_query_page()
+
+    @app.get("/api/agents")
     async def list_agents():
         return [agent.dict() for agent in load_registry()]
 
-    @app.post("/query", response_model=SupervisorResponse)
+    @app.post("/api/query", response_model=SupervisorResponse)
     async def handle_query(payload: FrontendRequest) -> SupervisorResponse:
         if not payload.query.strip():
             raise HTTPException(status_code=400, detail="Query cannot be empty")
