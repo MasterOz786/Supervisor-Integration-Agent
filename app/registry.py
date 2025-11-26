@@ -55,10 +55,11 @@ def load_registry() -> List[AgentMetadata]:
         AgentMetadata(
             name="knowledge_base_builder_agent",
             description="Builds or updates a knowledge base from discussions and notes.",
-            intents=["knowledge.update"],
+            intents=["update_wiki"],
             type="http",
-            endpoint="https://example.com/knowledge/handle",
-            healthcheck="https://example.com/knowledge/health",
+            endpoint="http://vps.zaim-abbasi.tech/knowledge-builder/message",
+            healthcheck="http://vps.zaim-abbasi.tech/knowledge-builder/health",
+            timeout_ms=10000,
         ),
         AgentMetadata(
             name="task_dependency_agent",

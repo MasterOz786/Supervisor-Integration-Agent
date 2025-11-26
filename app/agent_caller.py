@@ -107,9 +107,15 @@ def simulate_agent_output(agent_name: str, text: str) -> Dict[str, Any]:
         }
     if agent_name == "knowledge_base_builder_agent":
         return {
-            "result": "Added notes to knowledge base under 'Project X'.",
-            "confidence": 0.83,
-            "details": "Simulated KB update",
+            "result": "Wiki updated successfully using overwrite mode",
+            "confidence": 0.95,
+            "details": {
+                "status": "success",
+                "message": "Wiki updated successfully using overwrite mode",
+                "wiki_size": 1234,
+                "update_mode": "overwrite",
+                "agent_id": "knowledge_base_builder_agent",
+            },
         }
     if agent_name == "task_dependency_agent":
         return {
