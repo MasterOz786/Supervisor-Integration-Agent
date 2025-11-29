@@ -55,15 +55,21 @@ def build_app() -> FastAPI:
 
         file_uploads = []
         query_text = payload.query
-        file_pattern = r'\[FILE_UPLOAD:([^:]+):([^:]+):([^\]]+)\]'
+        # Pattern: [FILE_UPLOAD:data:mime;base64,base64data:filename:mime_type]
+        # Need to handle data URL which contains colons, so we match from the end
+        file_pattern = r'\[FILE_UPLOAD:(.+?):([^:]+):([^\]]+)\]'
         matches = re.findall(file_pattern, query_text)
         
-        for data_url, filename, mime_type in matches:
+        for data_url_part, filename, mime_type in matches:
             # Extract base64 data from data URL
-            if data_url.startswith('data:'):
-                base64_data = data_url.split(',')[1] if ',' in data_url else data_url
+            # Format: data:application/...;base64,<base64data>
+            if 'base64,' in data_url_part:
+                base64_data = data_url_part.split('base64,')[1]
+            elif data_url_part.startswith('data:'):
+                # Fallback: try to split by comma
+                base64_data = data_url_part.split(',')[1] if ',' in data_url_part else data_url_part
             else:
-                base64_data = data_url
+                base64_data = data_url_part
             file_uploads.append({
                 'base64_data': base64_data,
                 'filename': filename,
