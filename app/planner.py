@@ -213,6 +213,101 @@ def plan_tools_with_llm(query: str, registry: List[AgentMetadata], history: Opti
                 )
             ]
         )
+    
+    # Productivity agent – detailed routing
+    # Create goal
+    if any(k in lower_q for k in ["create goal", "new goal", "add goal"]):
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="goal.create",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    # Update goal progress
+    if any(k in lower_q for k in ["update goal", "goal progress", "progress update"]):
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="goal.update",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    # Add reflection / journaling
+    if any(k in lower_q for k in ["add reflection", "journal", "daily log", "reflection", "wrote"]):
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="reflection.add",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    # Insights
+    if "insight" in lower_q:
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="productivity.insights",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    # Accountability
+    if "accountability" in lower_q:
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="productivity.accountability",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    # General analysis (default intent)
+    if any(k in lower_q for k in ["analysis", "analyze", "trend", "pattern"]):
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="productivity.analyze",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    # Report generation
+    if "report" in lower_q:
+        return Plan(
+            steps=[
+                PlanStep(
+                    step_id=0,
+                    agent="productivity_agent",
+                    intent="productivity.report",
+                    input_source="user_query",
+                )
+            ]
+        )
+
+    
+    
 
     client = _get_openrouter_client()
     if client is None:

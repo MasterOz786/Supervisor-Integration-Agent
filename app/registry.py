@@ -82,6 +82,24 @@ def load_registry() -> List[AgentMetadata]:
             timeout_ms=30000,
         ),
         AgentMetadata(
+            name="productivity_agent",
+            description="Analyzes reflections, tracks goals, generates insights, detects trends, and produces productivity reports.",
+            intents=[
+                "productivity.analyze",       # /analysis
+                "productivity.report",        # /report
+                "goal.create",                # /goals (POST)
+                "goal.update",                # /goals/<id>/progress
+                "reflection.add",             # /reflections
+                "productivity.insights",      # /insights
+                "productivity.accountability" # /accountability
+            ],
+            type="http",
+            endpoint="https://spm-agent-api-production.up.railway.app/agent/json",
+            healthcheck="https://spm-agent-api-production.up.railway.app/health",
+            timeout_ms=30000,
+        ),
+
+        AgentMetadata(
             name="deadline_guardian_agent",
             description="Monitors deadlines, detects risks, and alerts when deadlines are at risk.",
             intents=["deadline.monitor"],
