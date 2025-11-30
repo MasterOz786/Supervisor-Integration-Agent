@@ -36,9 +36,9 @@ STYLES = """
             min-height: 100vh;
           }
           .shell {
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 56px 18px 110px;
+            padding: 56px 8px 110px;
             position: relative;
           }
           /* Ambient sparkles */
@@ -74,7 +74,7 @@ STYLES = """
             background: rgba(11,18,32,0.9);
             border: 1px solid var(--border);
             border-radius: 18px;
-            padding: 28px;
+            padding: 22px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.35);
           }
           .chat {
@@ -86,9 +86,9 @@ STYLES = """
             background: var(--panel);
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 18px;
-            min-height: 360px;
-            max-height: 560px;
+            padding: 20px;
+            min-height: 75vh;
+            max-height: 85vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -113,13 +113,13 @@ STYLES = """
           }
           .input-bar {
             display: grid;
-            grid-template-columns: 1fr 220px;
-            gap: 16px;
-            align-items: stretch;
+            grid-template-columns: 1fr 200px;
+            gap: 14px;
+            align-items: start;
             background: var(--panel);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 14px;
+            padding: 12px 14px;
           }
           textarea {
             width: 100%;
@@ -705,11 +705,13 @@ Summarize the attached document`);
 
                   <div className="input-bar">
                     <textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message..." rows={3} />
-                    <div style={{ display: 'grid', gap: 10 }}>
-                      <input ref={fileInputRef} type="file" style={{ display: 'none' }} accept=".txt,.md,.json,.csv,.log,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={handleFileUpload} />
-                      <button type="button" className="file-trigger" onClick={() => fileInputRef.current && fileInputRef.current.click()}>Attach file</button>
-                      {fileName && <span className="file-meta">Attached: {fileName}</span>}
-                      <button className="primary" onClick={handleSend} style={{ padding: '12px 18px' }}>Send</button>
+                    <div style={{ display: 'grid', gap: 8 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        <input ref={fileInputRef} type="file" style={{ display: 'none' }} accept=".txt,.md,.json,.csv,.log,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={handleFileUpload} />
+                        <button type="button" className="file-trigger" onClick={() => fileInputRef.current && fileInputRef.current.click()}>Attach file</button>
+                        {fileName && <span className="file-meta">Attached: {fileName}</span>}
+                      </div>
+                      <button className="primary" onClick={handleSend} style={{ padding: '12px 16px' }}>Send</button>
                       {error && <div className="small" style={{ color: '#f87171' }}>Error: {error.message}</div>}
                     </div>
                   </div>
